@@ -65,7 +65,7 @@ def start_ui():
         global bot
         if bot:
             bot.running = False
-            log_output.append("🔴 Bot stopped.")
+            log_output.append("🔴Bot stopped.")
             webhook_input.setDisabled(False)
             url_input.setDisabled(False)
             keyword_input.setDisabled(False)
