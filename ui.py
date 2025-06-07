@@ -53,6 +53,12 @@ def start_ui():
             interval_input.value(),
             log_output
         )
+        webhook_input.setDisabled(True)
+        url_input.setDisabled(True)
+        keyword_input.setDisabled(True)
+        interval_input.setDisabled(True)
+        start_btn.setDisabled(True)
+        stop_btn.setDisabled(False)
         threading.Thread(target=bot.run, daemon=True).start()
 
     def stop_bot():
@@ -60,6 +66,12 @@ def start_ui():
         if bot:
             bot.running = False
             log_output.append("🔴 Bot stopped.")
+            webhook_input.setDisabled(False)
+            url_input.setDisabled(False)
+            keyword_input.setDisabled(False)
+            interval_input.setDisabled(False)
+            start_btn.setDisabled(False)
+            stop_btn.setDisabled(True)
 
     start_btn = QPushButton("Start Bot")
     start_btn.clicked.connect(start_bot)
