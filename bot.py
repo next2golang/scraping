@@ -28,14 +28,13 @@ class JobBot(QObject):
             dict = soup.find('div', attrs={'data':True})
             predict = json.loads(dict['data'])
             searchData = predict['searchResult']['job_offers']
-            self.toast.show_toast("JobBot", "Fetching jobs...", duration=4)
             for job in searchData:
                 title = job['job_offer']['title']
                 description = job['job_offer']['description_digest']
                 posted_at = job['job_offer']['last_released_at']
                 avatar = 'https://crowdworks.jp/' + job['client']['user_picture_url']
                 client = job['client']['username']
-                link = 'https://crowdworks.jp/jobs/' + str(job['job_offer']['id'])
+                link = 'https://crowdworks.jp/public/jobs/' + str(job['job_offer']['id'])
                 # Skip if already seen
                 if link in self.seen:
                     continue
@@ -48,7 +47,6 @@ class JobBot(QObject):
                 self.seen.add(link)
                 jobs.append((title, link, description, posted_at, avatar, client))
             return jobs
-            print("jobs==========",jobs)
         except Exception as e:
             self.log_signal.emit(f"❌ Error: {e}")
             return []
@@ -56,7 +54,7 @@ class JobBot(QObject):
     def send_to_discord(self, jobs):
         for title, link, description, posted_at, avatar, client in jobs:
             payload = {
-                "content": f"🆕 **{title}**\n🔗 {link}",
+                "content": f"🌌 **{title}**\n🔗 {link}",
                 "embeds": [
                     {
                         "title": title,
