@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 import time
 import json
 from win10toast import ToastNotifier
+from datetime import datetime
 
 class JobBot(QObject):
     log_signal = pyqtSignal(str)
@@ -28,14 +29,18 @@ class JobBot(QObject):
             dict = soup.find('div', attrs={'data':True})
             predict = json.loads(dict['data'])
             searchData = predict['searchResult']['job_offers']
+            current_time = datetime.now().timestamp()
             for job in searchData:
                 title = job['job_offer']['title']
                 description = job['job_offer']['description_digest']
                 posted_at = job['job_offer']['last_released_at']
+                posted = datetime.fromisoformat(posted_at.replace('Z', '+00:00')).timestamp()
                 avatar = 'https://crowdworks.jp/' + job['client']['user_picture_url']
                 client = job['client']['username']
                 link = 'https://crowdworks.jp/public/jobs/' + str(job['job_offer']['id'])
-                # Skip if already seen
+                # Skip if already seen and posted more than 2 hours ago
+                if current_time - 7200 > posted:
+                    continue
                 if link in self.seen:
                     continue
 
