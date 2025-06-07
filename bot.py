@@ -88,5 +88,5 @@ class JobBot(QObject):
             if jobs:
                 self.send_to_discord(jobs)
             else:
-                self.log_signal.emit("🔍 No new jobs found.")
+                self.log_signal.emit(f"🔍 No new jobs found. :{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
             time.sleep(self.interval)
