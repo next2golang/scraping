@@ -80,7 +80,7 @@ class JobBot(QObject):
                 ]
             }
             requests.post(self.webhook_url, json=payload)
-            self.log_signal.emit(f"✅ Sent to Discord: {title}")
+            self.log_signal.emit(f"✅ Sent to Data in Discord Channel: {title}")
 
     def run(self):
         while self.running:
